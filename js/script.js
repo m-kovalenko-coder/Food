@@ -155,7 +155,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const modalTimerId = setTimeout(openModal, 5000);
+    // const modalTimerId = setTimeout(openModal, 5000); 
 
     function showModalByScroll() {
         if (window.scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
@@ -165,4 +165,68 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener("scroll", showModalByScroll);
+
+    // Uses 'class' for cards
+
+    class MenuCard {
+        constructor(src, alt, title, descr, price, parentSelector) {
+            this.src = src;
+            this.alt = alt;
+            this.title =title;
+            this.descr = descr;
+            this.price = price;
+            this.parent = document.querySelector(parentSelector);
+            this.transfer = 27;
+            this.changeToUAH();
+        }
+
+        changeToUAH() {
+            this.price = this.price * this.transfer;
+        }
+
+        render() {
+            const element = document.createElement('div');
+            element.classList.add('menu__item');
+            element.innerHTML = `
+                <img src="${this.src}" alt="${this.alt}">
+                <h3 class="menu__item-subtitle">${this.title}</h3>
+                <div class="menu__item-descr">${this.descr}</div>
+                <div class="menu__item-divider"></div>
+                <div class="menu__item-price">
+                    <div class="menu__item-cost">Price:</div>
+                    <div class="menu__item-total"><span>${this.price}</span> uah/day</div>
+                </div>
+            `;
+            this.parent.append(element);
+        }
+    }
+
+
+    new MenuCard(
+        "img/tabs/vegy.jpg",
+        "vegy",
+        'Menu "Fitness"',
+        'Menu "Fitness" - a new approach to cooking: more fresh vegetables and fruits. For people interested in sports; active and healthy. This is a completely new product with the best price and high quality!',
+        9,
+        '.menu .container'
+    ).render();
+
+    new MenuCard(
+        "img/tabs/elite.jpg",
+        "elite",
+        'Menu "Premium"',
+        'Menu "Premium" - we use not only beautiful packaging design, but also high-quality execution of dishes. Red fish, seafood, fruits - a restaurant menu without going to a restaurant!',
+        14,
+        '.menu .container'
+    ).render();
+
+    new MenuCard(
+        "img/tabs/post.jpg",
+        "post",
+        'Menu "Lenten"',
+        'Menu "Lenten" - a careful selection of ingredients: the complete absence of animal products. Full harmony with yourself and nature in every element! All will be Om!',
+        21,
+        '.menu .container'
+    ).render();
+
 });
