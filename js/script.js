@@ -169,12 +169,13 @@ window.addEventListener('DOMContentLoaded', () => {
     // Uses 'class' for cards
 
     class MenuCard {
-        constructor(src, alt, title, descr, price, parentSelector) {
+        constructor(src, alt, title, descr, price, parentSelector, ...classes) {
             this.src = src;
             this.alt = alt;
             this.title =title;
             this.descr = descr;
             this.price = price;
+            this.classes = classes;
             this.parent = document.querySelector(parentSelector);
             this.transfer = 27;
             this.changeToUAH();
@@ -186,7 +187,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
         render() {
             const element = document.createElement('div');
-            element.classList.add('menu__item');
+
+            if(this.classes.length === 0) {
+                this.element = 'menu__item';
+                element.classList.add(this.element);
+            } else {
+                this.classes.forEach((className) => element.classList.add(className));
+            }
             element.innerHTML = `
                 <img src="${this.src}" alt="${this.alt}">
                 <h3 class="menu__item-subtitle">${this.title}</h3>
@@ -201,14 +208,14 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
     new MenuCard(
         "img/tabs/vegy.jpg",
         "vegy",
         'Menu "Fitness"',
         'Menu "Fitness" - a new approach to cooking: more fresh vegetables and fruits. For people interested in sports; active and healthy. This is a completely new product with the best price and high quality!',
         9,
-        '.menu .container'
+        '.menu .container',
+        'menu__item'
     ).render();
 
     new MenuCard(
@@ -226,7 +233,8 @@ window.addEventListener('DOMContentLoaded', () => {
         'Menu "Lenten"',
         'Menu "Lenten" - a careful selection of ingredients: the complete absence of animal products. Full harmony with yourself and nature in every element! All will be Om!',
         21,
-        '.menu .container'
+        '.menu .container',
+        'menu__item'
     ).render();
 
 });
